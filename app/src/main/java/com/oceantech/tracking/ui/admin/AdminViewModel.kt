@@ -1,16 +1,12 @@
 package com.oceantech.tracking.ui.admin
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.*
-import com.google.gson.Gson
 import com.oceantech.tracking.core.TrackingViewModel
-import com.oceantech.tracking.data.model.Constants
 import com.oceantech.tracking.data.model.Constants.Companion.FEMALE
 import com.oceantech.tracking.data.model.Constants.Companion.LGBT
 import com.oceantech.tracking.data.model.Constants.Companion.MALE
 import com.oceantech.tracking.data.model.Constants.Companion.OTHER_GENDER
-import com.oceantech.tracking.data.model.Constants.Companion.TAG
 import com.oceantech.tracking.data.model.request.UserBody
 import com.oceantech.tracking.data.model.response.Member
 import com.oceantech.tracking.data.model.response.Project
@@ -26,8 +22,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
 import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 class AdminViewModel @AssistedInject constructor(
@@ -38,8 +34,6 @@ class AdminViewModel @AssistedInject constructor(
     lateinit var userPref: UserPreferences
 
     var teamList: List<Team>? = null
-
-    private val gson = Gson()
 
     private lateinit var projectList: List<Project>
     private lateinit var projectTypeList: MutableList<String>
@@ -141,13 +135,11 @@ class AdminViewModel @AssistedInject constructor(
         val newProject = Project(
             name = name,
             code = code,
-            status = status.toUpperCase(),
+            status = status.toUpperCase(Locale.ROOT),
             description = desc,
             tasks = null
         )
-        repository.addProject(
-            RequestBody.create(mediaType, gson.toJson(newProject))
-        ).execute {
+        repository.addProject(newProject).execute {
             _viewEvents.post(AdminViewEvent.DataModified)
             copy(asyncModify = it)
         }
@@ -157,11 +149,10 @@ class AdminViewModel @AssistedInject constructor(
     fun editProject(id: String, code: String, name: String, status: String, desc: String) {
         setState { copy(asyncModify = Loading()) }
 
-        val newProject = Project(id, name, code, status.toUpperCase(), desc, null)
-        Log.i(TAG, "$id $code $name ${status.toUpperCase()} $desc")
+        val newProject = Project(id, name, code, status.toUpperCase(Locale.ROOT), desc, null)
         repository.editProject(
             id,
-            RequestBody.create(mediaType, gson.toJson(newProject))
+            newProject
         ).execute {
             _viewEvents.post(AdminViewEvent.DataModified)
             copy(asyncModify = it)
@@ -197,11 +188,8 @@ class AdminViewModel @AssistedInject constructor(
     ) {
         setState { copy(asyncModify = Loading()) }
 
-        val body = RequestBody.create(
-            mediaType,
-            gson.toJson(Team(name = name, code = code, description = desc))
-        )
-        repository.updateTeam(id, body).execute {
+        val editedTeam = Team(name = name, code = code, description = desc)
+        repository.updateTeam(id, editedTeam).execute {
             _viewEvents.post(AdminViewEvent.DataModified)
             copy(asyncModify = it)
         }
@@ -252,9 +240,8 @@ class AdminViewModel @AssistedInject constructor(
             type = type
         )
         setState { copy(asyncModify = Loading()) }
-        val body = RequestBody.create(mediaType, gson.toJson(newMember))
 
-        repository.updateMember(id, body).execute {
+        repository.updateMember(id, newMember).execute {
             _viewEvents.post(AdminViewEvent.DataModified)
             copy(asyncModify = it)
         }
@@ -300,9 +287,8 @@ class AdminViewModel @AssistedInject constructor(
             password = password,
             confirmPassword = password
         )
-        val body = RequestBody.create(mediaType, gson.toJson(newUser))
         setState { copy(asyncModify = Loading()) }
-        repository.addNewUser(body).execute {
+        repository.addNewUser(newUser).execute {
             _viewEvents.post(AdminViewEvent.DataModified)
             copy(asyncModify = it)
         }

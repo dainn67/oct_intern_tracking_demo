@@ -1,11 +1,17 @@
 package com.oceantech.tracking.data.repository
 
+import com.oceantech.tracking.data.model.request.UserBody
 import com.oceantech.tracking.data.model.response.ModifyResponse
 import com.oceantech.tracking.data.model.response.CheckTokenResponse
 import com.oceantech.tracking.data.model.response.DateListResponse
+import com.oceantech.tracking.data.model.response.DateObject
+import com.oceantech.tracking.data.model.response.Member
 import com.oceantech.tracking.data.model.response.MemberResponse
+import com.oceantech.tracking.data.model.response.Project
 import com.oceantech.tracking.data.model.response.ProjectResponse
+import com.oceantech.tracking.data.model.response.Team
 import com.oceantech.tracking.data.model.response.TeamResponse
+import com.oceantech.tracking.data.model.response.User
 import com.oceantech.tracking.data.model.response.UserResponse
 import com.oceantech.tracking.data.network.RemoteDataSource.Companion.AUTH_CONTENT_TYPE
 import com.oceantech.tracking.data.network.RemoteDataSource.Companion.CHECK_TOKEN_AUTH
@@ -44,12 +50,12 @@ class UserRepository @Inject constructor(
         pageIndex, pageSize
     ).subscribeOn(Schedulers.io())
 
-    fun addProject(body: RequestBody): Observable<ModifyResponse> = api.addProject(
-        body
+    fun addProject(newProject: Project): Observable<ModifyResponse> = api.addProject(
+        newProject
     ).subscribeOn(Schedulers.io())
 
-    fun editProject(id: String, body: RequestBody): Observable<ModifyResponse> = api.updateProject(
-        id, body
+    fun editProject(id: String, project: Project): Observable<ModifyResponse> = api.updateProject(
+        id, project
     ).subscribeOn(Schedulers.io())
 
     fun deleteProject(prjId: String): Observable<ModifyResponse> = api.deleteProject(
@@ -60,8 +66,8 @@ class UserRepository @Inject constructor(
         pageIndex, pageSize
     ).subscribeOn(Schedulers.io())
 
-    fun updateTeam(id: String, body: RequestBody): Observable<ModifyResponse> = api.updateTeam(
-        id, body
+    fun updateTeam(id: String, team: Team): Observable<ModifyResponse> = api.updateTeam(
+        id, team
     ).subscribeOn(Schedulers.io())
 
     fun getMembers(
@@ -72,8 +78,8 @@ class UserRepository @Inject constructor(
         teamId, pageIndex, pageSize
     ).subscribeOn(Schedulers.io())
 
-    fun updateMember(id: String, body: RequestBody): Observable<ModifyResponse> = api.updateMember(
-        id, body
+    fun updateMember(id: String, member: Member): Observable<ModifyResponse> = api.updateMember(
+        id, member
     ).subscribeOn(Schedulers.io())
 
     fun getUsers(pageIndex: String, pageSize: String): Observable<UserResponse> = api.getUsers(
@@ -85,19 +91,19 @@ class UserRepository @Inject constructor(
     ).subscribeOn(Schedulers.io())
 
     fun postTask(
-        body: RequestBody
+        date: DateObject
     ): Observable<ModifyResponse> = api.postTask(
-        body
+        date
     ).subscribeOn(Schedulers.io())
 
     fun putTask(
         dateId: String,
-        body: RequestBody
+        date: DateObject
     ): Observable<ModifyResponse> = api.putTask(
-        dateId, body
+        dateId, date
     ).subscribeOn(Schedulers.io())
 
-    fun addNewUser(body: RequestBody): Observable<ModifyResponse> = api.addNewUser(
-        body
+    fun addNewUser(user: UserBody): Observable<ModifyResponse> = api.addNewUser(
+        user
     ).subscribeOn(Schedulers.io())
 }

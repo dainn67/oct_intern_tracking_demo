@@ -31,7 +31,6 @@ class HomeViewModel @AssistedInject constructor(
 ) : TrackingViewModel<HomeViewState, HomeViewAction, HomeViewEvent>(state) {
     @Inject
     lateinit var userPref: UserPreferences
-    private val gson = Gson()
 
     private var selectedCalendar = Calendar.getInstance()
     private var selectedPageIndex = 0
@@ -155,14 +154,13 @@ class HomeViewModel @AssistedInject constructor(
             )
         )
 
-        val body = RequestBody.create(mediaType, gson.toJson(currentDate))
         if (currentDate.id == null) {
-            repository.postTask(body).execute {
+            repository.postTask(currentDate).execute {
                 if (it.invoke() != null && it.invoke()!!.code == 200) loadList(selectedCalendar, selectedPageIndex, selectedPageSize)
                 copy(asyncModify = it)
             }
         } else {
-            repository.putTask(currentDate.id, body).execute {
+            repository.putTask(currentDate.id, currentDate).execute {
                 if (it.invoke() != null && it.invoke()!!.code == 200) loadList(selectedCalendar, selectedPageIndex, selectedPageSize)
                 copy(asyncModify = it)
             }
@@ -192,14 +190,13 @@ class HomeViewModel @AssistedInject constructor(
                 else currentDate.tasks?.removeAt(position)
             }
         }
-        val body = RequestBody.create(mediaType, gson.toJson(currentDate))
         if (currentDate.id != null) {
-            repository.putTask(currentDate.id, body).execute {
+            repository.putTask(currentDate.id, currentDate).execute {
                 if (it.invoke() != null && it.invoke()!!.code == 200) loadList(selectedCalendar, selectedPageIndex, selectedPageSize)
                 copy(asyncModify = it)
             }
         } else {
-            repository.postTask(body).execute {
+            repository.postTask(currentDate).execute {
                 if (it.invoke() != null && it.invoke()!!.code == 200) loadList(selectedCalendar, selectedPageIndex, selectedPageSize)
                 copy(asyncModify = it)
             }
