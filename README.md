@@ -19,22 +19,24 @@ An application implemented using Kotlin language and MvRx framwork, connecting w
 ## Demonstration
 
 ### Authentication screen
+<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/authen.jpg" alt="Authentication screen" width="280"/>
 
-<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/authentication.jpg" alt="Authentication screen" width="280"/>
+### Home screen
+<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/home.jpg" alt="Home screen" width="280"/>
 
-### Tracking screen
-<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/tracking.jpg" alt="Tracking screen" width="280"/>
+### Monthly statistic
+<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/statistic.jpg" alt="Statistic screen" width="280"/>
 
-### Project screen
-<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/project.jpg" alt="Project screen" width="280"/>
+### Summary of expense
+<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/summary.jpg" alt="Summary screen" width="280"/>
 
-### Member screen
-<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/members.jpg" alt="Member screen" width="280"/>
+### Balance managing
+<img src="https://github.com/dainn67/oct_intern_tracking_demo/blob/master/demo/balance.jpg" alt="Balance screen" width="280"/>
 
 
 ## Access Credentials
 
 For real-time demonstration, please use:
 
-- **Username:** admin
-- **Password:** 123456
+- **Username:** nguyendai060703@gmail.com
+- **Password:** 111111
