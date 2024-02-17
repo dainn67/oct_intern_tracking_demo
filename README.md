@@ -2,7 +2,7 @@
 
 ## Description
 
-An application implemented using Kotlin language and MvRx framwork, connecting with a web server through APIs.
+An application implemented using Kotlin language and MvRx framework, connecting with a web server through APIs.
 
 - **Employee Management:**
   - Track and manage employee tasks (including office overtime hours, roles, and belonging team).
